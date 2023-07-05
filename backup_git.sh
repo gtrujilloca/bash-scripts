@@ -1,15 +1,17 @@
 #!/bin/bash
 
 git=`which git`
-log="logs/lrc-logs.txt"
+log="bash-scripts/logs/lrc-logs.txt"
 merge_branch="hotfix/temp"
 main_branch="main"
 current_date="$(date +%F@%H:%M)"
+project_path="/lrc/woocommerce-site"
 dumper_path=".db-tools/bin/dumper --no-gtid --output-folder database etc/lrc-vars.ini"
 
+cd ${project_path}
+mkdir -p bash-scripts/logs
+touch ${log}
 echo "logs from ${current_date}" > ${log}
-mkdir -p logs
-touch ${LOG}
 
 ${git} fetch
 status = "${git} status -s"
@@ -38,6 +40,7 @@ else
   ${git} merge --no-edit ${merge_branch}
   ${git} push origin ${main_branch}
   ${git} branch -D ${merge_branch}
+  echo "All well done on the push ${current_date}" > ${log}
 fi
 
 
